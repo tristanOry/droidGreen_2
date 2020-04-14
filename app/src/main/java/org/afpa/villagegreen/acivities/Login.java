@@ -1,12 +1,14 @@
 package org.afpa.villagegreen.acivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,7 +75,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     public void onClick(View v) {
         if (v == btn) {
             final Context ctx=getApplicationContext();
-            //Ulogin uLog=new Ulogin(this,this.user.getText().toString(),this.password.getText().toString());
 
             Response.Listener reponse=new Response.Listener<String>() {
                 @Override
@@ -86,6 +87,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                         if(jsonObject.getBoolean("error")==false){
                             SharedPrefsManager.getInstance(ctx).userLogin(jsonObject.getInt("id"),
                                     user.toString());
+                            startActivity(new Intent(ctx,Choice.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -108,6 +110,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("mail", user.getText().toString());
+                    params.put("pass",password.getText().toString());
                     return params;
                 }
             };
