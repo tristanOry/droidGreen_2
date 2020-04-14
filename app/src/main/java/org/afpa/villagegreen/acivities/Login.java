@@ -1,19 +1,31 @@
 package org.afpa.villagegreen.acivities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import org.afpa.villagegreen.R;
+import org.afpa.villagegreen.utils.Constants;
 import org.afpa.villagegreen.utils.RequestHandler;
-import org.afpa.villagegreen.utils.Ulogin;
+import org.afpa.villagegreen.utils.SharedPrefsManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Login extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -60,8 +72,45 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     @Override
     public void onClick(View v) {
         if (v == btn) {
-            Ulogin uLog=new Ulogin(this,this.user.getText().toString(),this.password.getText().toString());
-            StringRequest req=uLog.strRequest();
+            final Context ctx=getApplicationContext();
+            //Ulogin uLog=new Ulogin(this,this.user.getText().toString(),this.password.getText().toString());
+
+            Response.Listener reponse=new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Toast.makeText(ctx,
+                                jsonObject.getString("message"),
+                                Toast.LENGTH_LONG).show();
+                        if(jsonObject.getBoolean("error")==false){
+                            SharedPrefsManager.getInstance(ctx).userLogin(jsonObject.getInt("id"),
+                                    user.toString());
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            Response.ErrorListener erreur=new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(ctx, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            };
+
+            StringRequest req=new StringRequest(Request.Method.POST,
+                    Constants.LOGIN_URL,
+                    reponse,
+                    erreur) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("mail", user.getText().toString());
+                    return params;
+                }
+            };
             RequestHandler.getInstance(this).addToRequestQueue(req);
         }
     }

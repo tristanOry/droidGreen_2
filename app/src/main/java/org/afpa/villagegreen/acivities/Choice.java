@@ -8,6 +8,7 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.afpa.villagegreen.R;
+import org.afpa.villagegreen.utils.SharedPrefsManager;
 
 public class Choice extends AppCompatActivity implements View.OnClickListener {
 
@@ -17,10 +18,14 @@ public class Choice extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
-        btnCat = findViewById(R.id.btnCat);
-        btnFact = findViewById(R.id.btnFact);
-        btnCat.setOnClickListener(this);
-        btnFact.setOnClickListener(this);
+        if(SharedPrefsManager.getInstance(this).isLoggedIn()) {
+            btnCat = findViewById(R.id.btnCat);
+            btnFact = findViewById(R.id.btnFact);
+            btnCat.setOnClickListener(this);
+            btnFact.setOnClickListener(this);
+        } else {
+
+        }
     }
 
     @Override
