@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">VillageGreen</string>
+    <string name="logName">Nom</string>
+    <string name="logPass">Mot de passe</string>
+    <string name="btnLogin">Se connecter</string>
+    <string name="menuCatalog">Catalogue</string>
+    <string name="menuFact">Vos commandes</string>
+    <string name="disco">Déconnexion</string>
+    <string name="lblCat">Catalogue</string>
+    <string name="lblFact">Vos factures</string>
+    <string name="titleFact">Vos factures</string>
+</resources>
