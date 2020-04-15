@@ -24,7 +24,8 @@ public class Choice extends AppCompatActivity implements View.OnClickListener {
             btnCat.setOnClickListener(this);
             btnFact.setOnClickListener(this);
         } else {
-
+            startActivity(new Intent(this,Login.class));
+            finish();
         }
     }
 
@@ -33,7 +34,6 @@ public class Choice extends AppCompatActivity implements View.OnClickListener {
         if (v == btnCat) {
 
             //Choix de la vue catalogue
-            //finish();
             startActivity(new Intent(this, Catalog.class));
         } else if (v == btnFact) {
             startActivity(new Intent(this, Facture.class));

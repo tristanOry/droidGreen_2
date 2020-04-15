@@ -1,10 +1,10 @@
 <?php
 
-require_once 'includes/DbOperations.php';
+require_once 'includes/DbLogin.php';
 $response = array();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['mail'])) {
-        $db = new DbOperations();
+        $db = new DbLogin();
         if ($_POST['mail'] != '') {
             $a = $db->userLogin($_POST['mail']);
             if ($a === false) {

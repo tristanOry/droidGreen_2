@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
     private EditText user, password;
     private Button btn;
     //private Menu menu;
-
+    private TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -76,22 +76,27 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Te
         if (v == btn) {
             final Context ctx=getApplicationContext();
 
-            Response.Listener reponse=new Response.Listener<String>() {
+            Response.Listener<String> reponse=new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    try {
+                 try {
                         JSONObject jsonObject = new JSONObject(response);
                         Toast.makeText(ctx,
                                 jsonObject.getString("message"),
                                 Toast.LENGTH_LONG).show();
-                        if(jsonObject.getBoolean("error")==false){
+                        if(!jsonObject.getBoolean("error")){
                             SharedPrefsManager.getInstance(ctx).userLogin(jsonObject.getInt("id"),
                                     user.toString());
                             startActivity(new Intent(ctx,Choice.class));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
+                 }
+                 /* TODO : Supprimer ces 2 lignes à la mise en prod
+                 tv=findViewById(R.id.textView2);
+                 tv.setText(response);
+
+                  */
                 }
             };
 

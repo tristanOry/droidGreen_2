@@ -1,6 +1,6 @@
 <?php
 
-class DbOperations {
+class DbLogin {
 
     private $con;
 

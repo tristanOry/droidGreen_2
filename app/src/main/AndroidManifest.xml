@@ -3,8 +3,12 @@
     package="org.afpa.villagegreen">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+<!-- TODO : Pour la mise en prod, supprimer android:usesCleartextTraffic="true" pour interdire
+            le trafic http non sécurisé dans les version 8+ d'android ou basculer à "false"
+            pour les version 7.x- -->
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/icone"
         android:label="@string/app_name"
